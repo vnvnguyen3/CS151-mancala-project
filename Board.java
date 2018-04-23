@@ -174,7 +174,7 @@ public class Board {
 	 */
 	public boolean aDone() {
 		for(Pit p: aPits) {
-			if(p.getStones()>0) {
+			if(p.getStones() > 0) {
 				return false;
 			}
 		}
@@ -188,7 +188,7 @@ public class Board {
 	 */
 	public boolean bDone() {
 		for(Pit p: bPits) {
-			if(p.getStones()>0) {
+			if(p.getStones() > 0) {
 				return false;
 			}
 		}
