@@ -2,7 +2,6 @@ package mancala;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -15,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -28,11 +28,12 @@ public class Mancala {
 	private int[] list;
 	private int undos;
 	private JFrame frame;
-	private JTextArea area, counter;
+	private JTextArea counter;
 	private JTextPane text;
-	private JPanel midPanel, bottomPanel;
+	private JPanel midPanel, bottomPanel,aRow,bRow,aMancala,bMancala,rowPanel,mainPanel;
 	private JButton a,b,three,four,first,second,undo,a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6;
-	private JLabel label;
+	private JLabel topLabel, bottomLabel;
+	private JLabel c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13;
 	private Style style;
 	/*
 	 * Mancala class
@@ -53,19 +54,21 @@ public class Mancala {
 		doc.setParagraphAttributes(0, doc.getLength(), center, false);
 		frame.add(text, BorderLayout.NORTH);
 		
-		JLabel topLabel = new JLabel("        B               B6             B5           B4            B3            B2           B1");
-        JLabel bottomLabel = new JLabel("                          A1           A2            A3            A4            A5          A6               A");
-        JPanel aRow = new JPanel();
+		topLabel = new JLabel("B         B6                  B5                  B4                 B3                  B2                 B1         A");
+        bottomLabel = new JLabel("            A1                 A2                  A3                 A4                  A5                  A6");
+        topLabel.setFont(new Font("Arial", Font.PLAIN, 50));
+        bottomLabel.setFont(new Font("Arial", Font.PLAIN, 50));
+        aRow = new JPanel();
         aRow.setLayout(new GridLayout(1, 6));
-        JPanel aMancala = new JPanel();
-        JPanel bRow = new JPanel();
+        aMancala = new JPanel();
+        bRow = new JPanel();
         bRow.setLayout(new GridLayout(1, 6));
-        JPanel bMancala = new JPanel();
-        JPanel rowPanel = new JPanel();
+        bMancala = new JPanel();
+        rowPanel = new JPanel();
         rowPanel.setLayout(new GridLayout(2, 1));
         rowPanel.add(bRow);
         rowPanel.add(aRow);
-        JPanel mainPanel = new JPanel();
+        mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(bMancala, BorderLayout.WEST);
         mainPanel.add(rowPanel, BorderLayout.CENTER);
@@ -74,10 +77,52 @@ public class Mancala {
         midPanel.add(topLabel, BorderLayout.NORTH);
         midPanel.add(mainPanel, BorderLayout.CENTER);
         midPanel.add(bottomLabel, BorderLayout.SOUTH);
+        midPanel.setVisible(false);
         
-		//area = new JTextArea();											//remove when styles are made
-		//area.setEditable(false);
-		//midPanel.add(area);
+        c0 = new JLabel("3",SwingConstants.CENTER);
+        c1 = new JLabel("3",SwingConstants.CENTER);
+        c2 = new JLabel("3",SwingConstants.CENTER);
+        c3 = new JLabel("3",SwingConstants.CENTER);
+        c4 = new JLabel("3",SwingConstants.CENTER);
+        c5 = new JLabel("3",SwingConstants.CENTER);
+        c6 = new JLabel("0",SwingConstants.CENTER);
+        c7 = new JLabel("3",SwingConstants.CENTER);
+        c8 = new JLabel("3",SwingConstants.CENTER);
+        c9 = new JLabel("3",SwingConstants.CENTER);
+        c10 = new JLabel("3",SwingConstants.CENTER);
+        c11 = new JLabel("3",SwingConstants.CENTER);
+        c12 = new JLabel("3",SwingConstants.CENTER);
+        c13 = new JLabel("0",SwingConstants.CENTER);
+        c0.setFont(new Font("Arial", Font.PLAIN, 50));
+        c1.setFont(new Font("Arial", Font.PLAIN, 50));
+        c2.setFont(new Font("Arial", Font.PLAIN, 50));
+        c3.setFont(new Font("Arial", Font.PLAIN, 50));
+        c4.setFont(new Font("Arial", Font.PLAIN, 50));
+        c5.setFont(new Font("Arial", Font.PLAIN, 50));
+        c6.setFont(new Font("Arial", Font.PLAIN, 50));
+        c7.setFont(new Font("Arial", Font.PLAIN, 50));
+        c8.setFont(new Font("Arial", Font.PLAIN, 50));
+        c9.setFont(new Font("Arial", Font.PLAIN, 50));
+        c10.setFont(new Font("Arial", Font.PLAIN, 50));
+        c11.setFont(new Font("Arial", Font.PLAIN, 50));
+        c12.setFont(new Font("Arial", Font.PLAIN, 50));
+        c13.setFont(new Font("Arial", Font.PLAIN, 50));
+        aRow.add(c0);
+        aRow.add(c1);
+        aRow.add(c2);
+        aRow.add(c3);
+        aRow.add(c4);
+        aRow.add(c5);
+        aMancala.add(c6);
+        bRow.add(c12);
+        bRow.add(c11);
+        bRow.add(c10);
+        bRow.add(c9);
+        bRow.add(c8);
+        bRow.add(c7);
+        bMancala.add(c13);
+        
+        
 		counter = new JTextArea();
 		counter.setFont(new Font("Arial", Font.PLAIN, 50));
 		counter.setEditable(false);
@@ -115,24 +160,20 @@ public class Mancala {
 				selectStones(4);
 			}
 		});
-		first = new JButton("Style 1");	
+		first = new JButton("Circle");	
 		first.setFont(new Font("Arial", Font.PLAIN, 50));
 		first.setPreferredSize(d);
 		first.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
-				//area.setFont(new Font("Arial", Font.PLAIN, 50));
-				//Icon s = (Icon)style;
-				selectStyle();
+				selectStyle(true);
 			}
 		});
-		second = new JButton("Style 2");
+		second = new JButton("Square");
 		second.setFont(new Font("Arial", Font.PLAIN, 50));
 		second.setPreferredSize(d);
 		second.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
-				//area.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-				//Icon s = (Icon)style;
-				selectStyle();
+				selectStyle(false);
 			}
 		});
 		undo = new JButton("UNDO");
@@ -239,7 +280,6 @@ public class Mancala {
 		b4.setPreferredSize(d);
 		b5.setPreferredSize(d);
 		b6.setPreferredSize(d);
-		//area.setVisible(false);											//remove when styles are made
 		three.setVisible(false);
 		four.setVisible(false);
 		first.setVisible(false);
@@ -311,14 +351,53 @@ public class Mancala {
 	/*
 	 * Chooses a style of the board
 	 */
-	public void selectStyle() {
-		//midPanel.add(label);
+	public void selectStyle(boolean circle) {
+		if(circle) {
+			style = new CircleStyle();
+		}
+		else {
+			style = new SquareStyle();
+		}
+
+		midPanel.setVisible(true);
+		c0.setIcon((Icon) style);
+		c1.setIcon((Icon) style);
+		c2.setIcon((Icon) style);
+		c3.setIcon((Icon) style);
+		c4.setIcon((Icon) style);
+		c5.setIcon((Icon) style);
+		c7.setIcon((Icon) style);
+		c8.setIcon((Icon) style);
+		c9.setIcon((Icon) style);
+		c10.setIcon((Icon) style);
+		c11.setIcon((Icon) style);
+		c12.setIcon((Icon) style);
+		
 		first.setVisible(false);
 		second.setVisible(false);
-		//area.setVisible(true);
 		undo.setVisible(true);
 		counter.setVisible(true);
 		paint();
+	}
+	/*
+	 * Shows an updated visual of the board
+	 */
+	public void print() {
+		int[] current = x.list();
+		c0.setText(""+current[0]);
+		c1.setText(""+current[1]);
+		c2.setText(""+current[2]);
+		c3.setText(""+current[3]);
+		c4.setText(""+current[4]);
+		c5.setText(""+current[5]);
+		c6.setText(""+current[6]);
+		c7.setText(""+current[7]);
+		c8.setText(""+current[8]);
+		c9.setText(""+current[9]);
+		c10.setText(""+current[10]);
+		c11.setText(""+current[11]);
+		c12.setText(""+current[12]);
+		c13.setText(""+current[13]);
 	}
 	/*
 	 * Shows an updated visual of the board
@@ -356,13 +435,7 @@ public class Mancala {
 			a5.setVisible(false);
 			a6.setVisible(false);
 		}
-		//label.repaint();
-		/*
-		area.setText("");											//remove this when styles are made
-		for(String s: x.visual()) {
-			area.append(s+"\n\r");
-		}
-		*/
+		print();
 	}
 	/*
 	 * Selects pit and updates board
@@ -385,13 +458,7 @@ public class Mancala {
 				else {
 					text.setText("Tie game!");
 				}
-				label.repaint();
-				/*
-				area.setText("");									//remove this when styles are made
-				for(String s: x.visual()) {
-					area.append(s+"\n\r");
-				}
-				*/
+				print();
 			}
 			else {
 				paint();

@@ -1,7 +1,6 @@
 package mancala;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Shape;
 
 /*
@@ -11,7 +10,4 @@ import java.awt.Shape;
 public interface Style {
     Color getPitColor();
     Shape getPitShape();
-    //Dimension getDimension();
-    void customDraw(Graphics g, int width, int height);
-    void customFill(Graphics g, int width, int height);
 }

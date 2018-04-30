@@ -162,9 +162,9 @@ public class Board {
 	public ArrayList<String> visual(){
 		ArrayList<String> visual = new ArrayList<String>();
 		visual.add("     B6 B5 B4 B3 B2 B1");
-		visual.add("     "+b6.getStones()+"    "+b5.getStones()+"    "+b4.getStones()+"    "+b3.getStones()+"    "+b2.getStones()+"    "+b1.getStones());
-		visual.add("B                                        A");
-		visual.add(b7.getStones()+"                                        "+a7.getStones());
+		visual.add("      "+b6.getStones()+"    "+b5.getStones()+"    "+b4.getStones()+"    "+b3.getStones()+"    "+b2.getStones()+"    "+b1.getStones());
+		visual.add("B                                      A");
+		visual.add(b7.getStones()+"                                     "+a7.getStones());
 		visual.add("     "+a1.getStones()+"    "+a2.getStones()+"    "+a3.getStones()+"    "+a4.getStones()+"    "+a5.getStones()+"    "+a6.getStones());
 		visual.add("     A1 A2  A3  A4  A5  A6");
 		return visual;
@@ -202,18 +202,12 @@ public class Board {
 	 * @return the pit
 	 */
 	public Pit get(int i) {
-		if(i>=0||i<=5) {
-			return aPits.get(i);
-		}
-		else if(i == 6) {
-			return a7;
-		}
-		else if(i>=7||i<=12) {
-			int j = i-7;
-			return bPits.get(j);
+		int j = i - 1;
+		if(aTurn) {
+			return aPits.get(j);
 		}
 		else {
-			return b7;
+			return bPits.get(j);
 		}
 	}
 	/*
@@ -221,48 +215,52 @@ public class Board {
 	 */
 	public void select(int i) {
 		int j = i - 1;
+		Pit select = new Pit(0);
 		if(aTurn) {
-			aPits.get(j).click();
+			select = aPits.get(j);
 		}
 		else{
-			bPits.get(j).click();
+			select = bPits.get(j);
 		}
-		Pit last = new Pit(0);
-		for(Pit p: aPits) {
-			if(p.isEnd()) {
-				last = p;
-			}
-		}
-		for(Pit p: bPits) {
-			if(p.isEnd()) {
-				last = p;
-			}
-		}
-		if(a7.isEnd()) {
-			last = a7;
-		}
-		else if(b7.isEnd()){
-			last = b7;
-		}
-		if(!last.isCapture()&&last.getStones()==1&&last.getOpposite().getStones()>0) {
-			boolean aPit = true;
-			for(Pit p: bPits) {
-				if(p==last) {
-					aPit = false; 
+		if(select.getStones()>0) {
+			select.click();
+			Pit last = new Pit(0);
+			for(Pit p: aPits) {
+				if(p.isEnd()) {
+					last = p;
 				}
 			}
-			if(aPit&&aTurn||!aPit&&!aTurn) {
-				last.transferTo(last.getCapture());
-				last.getOpposite().transferTo(last.getCapture());
+			for(Pit p: bPits) {
+				if(p.isEnd()) {
+					last = p;
+				}
 			}
-		}
-		aTurn = !aTurn;
-		capture = false;
-		if(last.isCapture()) {
+			if(a7.isEnd()) {
+				last = a7;
+			}
+			else if(b7.isEnd()){
+				last = b7;
+			}
+			if(!last.isCapture()&&last.getStones()==1&&last.getOpposite().getStones()>0) {
+				boolean aPit = true;
+				for(Pit p: bPits) {
+					if(p==last) {
+						aPit = false; 
+					}
+				}
+				if(aPit&&aTurn||!aPit&&!aTurn) {
+					last.transferTo(last.getCapture());
+					last.getOpposite().transferTo(last.getCapture());
+				}
+			}
 			aTurn = !aTurn;
-			capture = true;
+			capture = false;
+			if(last.isCapture()) {
+				aTurn = !aTurn;
+				capture = true;
+			}
+			last.notEnd();
 		}
-		last.notEnd();
 	}
 	/*
 	 * Returns true if the last move ended on the capture pit
