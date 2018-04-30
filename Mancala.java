@@ -1,11 +1,17 @@
 package mancala;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
@@ -24,66 +30,114 @@ public class Mancala {
 	private JFrame frame;
 	private JTextArea area, counter;
 	private JTextPane text;
-	private JPanel topPanel, bottomPanel;
+	private JPanel midPanel, bottomPanel;
 	private JButton a,b,three,four,first,second,undo,a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6;
+	private JLabel label;
+	private Style style;
+	/*
+	 * Mancala class
+	 */
 	public Mancala() {
 		undos = 0;
 		prevUndo = false;
 		list = new int[14];
 		frame = new JFrame();
-		frame.setLayout(new GridLayout(3,1));
-		topPanel = new JPanel();
+		midPanel = new JPanel();
 		text = new JTextPane();
+		text.setFont(new Font("Arial", Font.PLAIN, 50));
 		text.setText("Which player goes first? A or B?");
 		text.setEditable(false);
 		StyledDocument doc = text.getStyledDocument();
 		SimpleAttributeSet center = new SimpleAttributeSet();
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
 		doc.setParagraphAttributes(0, doc.getLength(), center, false);
-		frame.add(text);
-		area = new JTextArea();
-		area.setEditable(false);
-		topPanel.add(area);
+		frame.add(text, BorderLayout.NORTH);
+		
+		JLabel topLabel = new JLabel("        B               B6             B5           B4            B3            B2           B1");
+        JLabel bottomLabel = new JLabel("                          A1           A2            A3            A4            A5          A6               A");
+        JPanel aRow = new JPanel();
+        aRow.setLayout(new GridLayout(1, 6));
+        JPanel aMancala = new JPanel();
+        JPanel bRow = new JPanel();
+        bRow.setLayout(new GridLayout(1, 6));
+        JPanel bMancala = new JPanel();
+        JPanel rowPanel = new JPanel();
+        rowPanel.setLayout(new GridLayout(2, 1));
+        rowPanel.add(bRow);
+        rowPanel.add(aRow);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(bMancala, BorderLayout.WEST);
+        mainPanel.add(rowPanel, BorderLayout.CENTER);
+        mainPanel.add(aMancala, BorderLayout.EAST);
+        midPanel.setLayout(new BorderLayout());
+        midPanel.add(topLabel, BorderLayout.NORTH);
+        midPanel.add(mainPanel, BorderLayout.CENTER);
+        midPanel.add(bottomLabel, BorderLayout.SOUTH);
+        
+		//area = new JTextArea();											//remove when styles are made
+		//area.setEditable(false);
+		//midPanel.add(area);
 		counter = new JTextArea();
+		counter.setFont(new Font("Arial", Font.PLAIN, 50));
 		counter.setEditable(false);
 		bottomPanel = new JPanel();
+		Dimension d = new Dimension(200,200);
 		a = new JButton("A");	
+		a.setFont(new Font("Arial", Font.PLAIN, 50));
+		a.setPreferredSize(d);
 		a.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
 				setTurn(true);
 			}
 		});
 		b = new JButton("B");
+		b.setFont(new Font("Arial", Font.PLAIN, 50));
+		b.setPreferredSize(d);
 		b.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
 				setTurn(false);
 			}
 		});
-		three = new JButton("3");	
+		three = new JButton("3");
+		three.setFont(new Font("Arial", Font.PLAIN, 50));
+		three.setPreferredSize(d);
 		three.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
 				selectStones(3);
 			}
 		});
 		four = new JButton("4");
+		four.setFont(new Font("Arial", Font.PLAIN, 50));
+		four.setPreferredSize(d);
 		four.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
 				selectStones(4);
 			}
 		});
 		first = new JButton("Style 1");	
+		first.setFont(new Font("Arial", Font.PLAIN, 50));
+		first.setPreferredSize(d);
 		first.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
+				//area.setFont(new Font("Arial", Font.PLAIN, 50));
+				//Icon s = (Icon)style;
 				selectStyle();
 			}
 		});
 		second = new JButton("Style 2");
+		second.setFont(new Font("Arial", Font.PLAIN, 50));
+		second.setPreferredSize(d);
 		second.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
+				//area.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+				//Icon s = (Icon)style;
 				selectStyle();
 			}
 		});
 		undo = new JButton("UNDO");
+		undo.setFont(new Font("Arial", Font.PLAIN, 50));
+		undo.setPreferredSize(d);
 		undo.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
 				undo();
@@ -161,7 +215,31 @@ public class Mancala {
 				select(6);
 			}
 		});
-		area.setVisible(false);
+		a1.setFont(new Font("Arial", Font.PLAIN, 50));
+		a2.setFont(new Font("Arial", Font.PLAIN, 50));
+		a3.setFont(new Font("Arial", Font.PLAIN, 50));
+		a4.setFont(new Font("Arial", Font.PLAIN, 50));
+		a5.setFont(new Font("Arial", Font.PLAIN, 50));
+		a6.setFont(new Font("Arial", Font.PLAIN, 50));
+		b1.setFont(new Font("Arial", Font.PLAIN, 50));
+		b2.setFont(new Font("Arial", Font.PLAIN, 50));
+		b3.setFont(new Font("Arial", Font.PLAIN, 50));
+		b4.setFont(new Font("Arial", Font.PLAIN, 50));
+		b5.setFont(new Font("Arial", Font.PLAIN, 50));
+		b6.setFont(new Font("Arial", Font.PLAIN, 50));
+		a1.setPreferredSize(d);
+		a2.setPreferredSize(d);
+		a3.setPreferredSize(d);
+		a4.setPreferredSize(d);
+		a5.setPreferredSize(d);
+		a6.setPreferredSize(d);
+		b1.setPreferredSize(d);
+		b2.setPreferredSize(d);
+		b3.setPreferredSize(d);
+		b4.setPreferredSize(d);
+		b5.setPreferredSize(d);
+		b6.setPreferredSize(d);
+		//area.setVisible(false);											//remove when styles are made
 		three.setVisible(false);
 		four.setVisible(false);
 		first.setVisible(false);
@@ -200,13 +278,16 @@ public class Mancala {
 		bottomPanel.add(b3);
 		bottomPanel.add(b2);
 		bottomPanel.add(b1);
-		frame.add(topPanel);
-		frame.add(bottomPanel);
+		frame.add(midPanel, BorderLayout.CENTER);
+		frame.add(bottomPanel, BorderLayout.SOUTH);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.pack();
 		frame.setVisible(true);
 	}
+	/*
+	 * Sets which player goes first in the game
+	 */
 	public void setTurn(boolean aTurn) {
 		this.aTurn = aTurn;
 		a.setVisible(false);
@@ -215,6 +296,9 @@ public class Mancala {
 		three.setVisible(true);
 		four.setVisible(true);
 	}
+	/*
+	 * Creates board with 3 or 4 stones in its pits
+	 */
 	public void selectStones(int i) {
 		x = new Board(i,aTurn);
 		list = x.list();
@@ -224,14 +308,21 @@ public class Mancala {
 		first.setVisible(true);
 		second.setVisible(true);
 	}
+	/*
+	 * Chooses a style of the board
+	 */
 	public void selectStyle() {
+		//midPanel.add(label);
 		first.setVisible(false);
 		second.setVisible(false);
-		area.setVisible(true);
+		//area.setVisible(true);
 		undo.setVisible(true);
 		counter.setVisible(true);
 		paint();
 	}
+	/*
+	 * Shows an updated visual of the board
+	 */
 	public void paint() {
 		aTurn = x.whoseTurn();
 		counter.setText("Undos: "+undos);
@@ -265,11 +356,17 @@ public class Mancala {
 			a5.setVisible(false);
 			a6.setVisible(false);
 		}
-		area.setText("");
+		//label.repaint();
+		/*
+		area.setText("");											//remove this when styles are made
 		for(String s: x.visual()) {
 			area.append(s+"\n\r");
 		}
+		*/
 	}
+	/*
+	 * Selects pit and updates board
+	 */
 	public void select(int i) {
 		if(x.get(i).getStones()>0) {
 			list = x.list();
@@ -288,16 +385,22 @@ public class Mancala {
 				else {
 					text.setText("Tie game!");
 				}
-				area.setText("");
+				label.repaint();
+				/*
+				area.setText("");									//remove this when styles are made
 				for(String s: x.visual()) {
 					area.append(s+"\n\r");
 				}
+				*/
 			}
 			else {
 				paint();
 			}
 		}
 	}
+	/*
+	 * Undos state of the board
+	 */
 	public void undo() {
 		if(undos<=2) {
 			aTurn = !aTurn;
