@@ -1,4 +1,10 @@
-package mancala;
+/**
+ * Team Project Solution
+ * Author: Vincent Nguyen, My Nguyen, Seng Cheok
+ * Version: Coding in Java Language
+ * Copyright
+ */
+package project.CS151;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -6,7 +12,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,8 +24,11 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-/*
- * @author Vincent Nguyen
+/**
+ * Mancala class
+ * @author Vincent Nguyen, My Nguyen, Seng Cheok
+ * Postcondition: create graphic Mancala board and update the board after each player 
+ * 					select a pit and undo button
  */
 public class Mancala {
 	private Board x;
@@ -35,8 +43,13 @@ public class Mancala {
 	private JLabel topLabel, bottomLabel;
 	private JLabel c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13;
 	private Style style;
-	/*
-	 * Mancala class
+	
+	/**
+	 * Mancala constructor
+	 * Precondition: create a frame, ask the players to choose which players would go first,
+	 * 					the number of stones they want to place in each pit, and board style
+	 * Postcondition: The graphic Mancala board is created.
+	 * 					After each player's turn, the board is updated according to Mancala rules
 	 */
 	public Mancala() {
 		undos = 0;
@@ -54,8 +67,8 @@ public class Mancala {
 		doc.setParagraphAttributes(0, doc.getLength(), center, false);
 		frame.add(text, BorderLayout.NORTH);
 		
-		topLabel = new JLabel("B         B6                  B5                  B4                 B3                  B2                 B1         A");
-        bottomLabel = new JLabel("            A1                 A2                  A3                 A4                  A5                  A6");
+		topLabel = new JLabel("B     B6           B5           B4           B3          B2           B1       A");
+        bottomLabel = new JLabel("       A1           A2            A3           A4          A5          A6");
         topLabel.setFont(new Font("Arial", Font.PLAIN, 50));
         bottomLabel.setFont(new Font("Arial", Font.PLAIN, 50));
         aRow = new JPanel();
@@ -122,12 +135,12 @@ public class Mancala {
         bRow.add(c7);
         bMancala.add(c13);
         
-        
 		counter = new JTextArea();
-		counter.setFont(new Font("Arial", Font.PLAIN, 50));
+		counter.setFont(new Font("Arial", Font.PLAIN, 35));
 		counter.setEditable(false);
 		bottomPanel = new JPanel();
 		Dimension d = new Dimension(200,200);
+		
 		a = new JButton("A");	
 		a.setFont(new Font("Arial", Font.PLAIN, 50));
 		a.setPreferredSize(d);
@@ -176,9 +189,11 @@ public class Mancala {
 				selectStyle(false);
 			}
 		});
+		
+		Dimension d1 = new Dimension(150,150);
 		undo = new JButton("UNDO");
-		undo.setFont(new Font("Arial", Font.PLAIN, 50));
-		undo.setPreferredSize(d);
+		undo.setFont(new Font("Arial", Font.PLAIN, 35));
+		undo.setPreferredSize(d1);
 		undo.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
 				undo();
@@ -268,18 +283,18 @@ public class Mancala {
 		b4.setFont(new Font("Arial", Font.PLAIN, 50));
 		b5.setFont(new Font("Arial", Font.PLAIN, 50));
 		b6.setFont(new Font("Arial", Font.PLAIN, 50));
-		a1.setPreferredSize(d);
-		a2.setPreferredSize(d);
-		a3.setPreferredSize(d);
-		a4.setPreferredSize(d);
-		a5.setPreferredSize(d);
-		a6.setPreferredSize(d);
-		b1.setPreferredSize(d);
-		b2.setPreferredSize(d);
-		b3.setPreferredSize(d);
-		b4.setPreferredSize(d);
-		b5.setPreferredSize(d);
-		b6.setPreferredSize(d);
+		a1.setPreferredSize(d1);
+		a2.setPreferredSize(d1);
+		a3.setPreferredSize(d1);
+		a4.setPreferredSize(d1);
+		a5.setPreferredSize(d1);
+		a6.setPreferredSize(d1);
+		b1.setPreferredSize(d1);
+		b2.setPreferredSize(d1);
+		b3.setPreferredSize(d1);
+		b4.setPreferredSize(d1);
+		b5.setPreferredSize(d1);
+		b6.setPreferredSize(d1);
 		three.setVisible(false);
 		four.setVisible(false);
 		first.setVisible(false);
@@ -325,8 +340,10 @@ public class Mancala {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	/*
-	 * Sets which player goes first in the game
+	/**
+	 * setTurn function
+	 * @param aTurn: boolean, true means a's turn, false means b's turn
+	 * Postcondition: Sets which player goes first in the game
 	 */
 	public void setTurn(boolean aTurn) {
 		this.aTurn = aTurn;
@@ -336,8 +353,10 @@ public class Mancala {
 		three.setVisible(true);
 		four.setVisible(true);
 	}
-	/*
-	 * Creates board with 3 or 4 stones in its pits
+	/**
+	 * selectStones function
+	 * @param i: desired number of stones being placed in each pit
+	 * Postcondition: Fill each pit of the board with wither 3 or 4 stones
 	 */
 	public void selectStones(int i) {
 		x = new Board(i,aTurn);
@@ -348,8 +367,10 @@ public class Mancala {
 		first.setVisible(true);
 		second.setVisible(true);
 	}
-	/*
-	 * Chooses a style of the board
+	/**
+	 * selectStlye function
+	 * @param circle: boolean, true means circle style, false means square style
+	 * Postcondition: Draw appropriate board style according to the choice of board style
 	 */
 	public void selectStyle(boolean circle) {
 		if(circle) {
@@ -379,8 +400,9 @@ public class Mancala {
 		counter.setVisible(true);
 		paint();
 	}
-	/*
-	 * Shows an updated visual of the board
+	/**
+	 * print function
+	 * Postcondition: Update the number of stones in each pit of the board
 	 */
 	public void print() {
 		int[] current = x.list();
@@ -399,8 +421,10 @@ public class Mancala {
 		c12.setText(""+current[12]);
 		c13.setText(""+current[13]);
 	}
-	/*
-	 * Shows an updated visual of the board
+	/**
+	 * paint function
+	 * Postcondition: Shows an updated visual of the board 
+	 * 					after the player selects a pit
 	 */
 	public void paint() {
 		aTurn = x.whoseTurn();
@@ -437,11 +461,14 @@ public class Mancala {
 		}
 		print();
 	}
-	/*
-	 * Selects pit and updates board
+	/**
+	 * select function
+	 * @param i indicates which pit
+	 * Precondition: Select a pit
+	 * Postcondition: update the board
 	 */
 	public void select(int i) {
-		if(x.get(i).getStones()>0) {
+		if(x.get(i).getStones()> 0) {
 			list = x.list();
 			x.select(i);
 			if(!prevUndo) {
@@ -465,11 +492,14 @@ public class Mancala {
 			}
 		}
 	}
-	/*
-	 * Undos state of the board
+	/**
+	 * undo function
+	 * Precondition: select a pit
+	 * Postcondition: the state of the board go back to the state 
+	 * 					before the player makes a selection of a pit
 	 */
 	public void undo() {
-		if(undos<=2) {
+		if(undos <= 2) {
 			aTurn = !aTurn;
 			if(x.wasCapture()) {
 				aTurn = !aTurn;
