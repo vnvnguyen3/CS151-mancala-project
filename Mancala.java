@@ -19,10 +19,13 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+
+
 /*
  * @author Vincent Nguyen
  */
 public class Mancala {
+	public static final int FONT_SIZE = 40;
 	private Board x;
 	private boolean aTurn, prevUndo;
 	private int[] list;
@@ -30,11 +33,29 @@ public class Mancala {
 	private JFrame frame;
 	private JTextArea counter;
 	private JTextPane text;
-	private JPanel midPanel, bottomPanel,aRow,bRow,aMancala,bMancala,rowPanel,mainPanel;
-	private JButton a,b,three,four,first,second,undo,a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6;
+	private JPanel midPanel, bottomPanel,aRow,bRow,rowPanel,mainPanel;
+	private JButton a,b,three,four,first,second,undo;
 	private JLabel topLabel, bottomLabel;
-	private JLabel c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13;
 	private Style style;
+	
+	static JButton buttonsA[] = {
+			new JButton("A1     "),
+			new JButton("A2     "),
+			new JButton("A3     "),
+			new JButton("A4     "),
+			new JButton("A5     "),
+			new JButton("A6     ")};
+	static JButton buttonsB[] = {
+			new JButton("B1     "),
+			new JButton("B2     "),
+			new JButton("B3     "),
+			new JButton("B4     "),
+			new JButton("B5     "),
+			new JButton("B6     ")};
+	static JLabel C[] = new JLabel[14];
+	
+			
+	
 	/*
 	 * Mancala class
 	 */
@@ -45,7 +66,7 @@ public class Mancala {
 		frame = new JFrame();
 		midPanel = new JPanel();
 		text = new JTextPane();
-		text.setFont(new Font("Arial", Font.PLAIN, 50));
+		text.setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
 		text.setText("Which player goes first? A or B?");
 		text.setEditable(false);
 		StyledDocument doc = text.getStyledDocument();
@@ -54,82 +75,88 @@ public class Mancala {
 		doc.setParagraphAttributes(0, doc.getLength(), center, false);
 		frame.add(text, BorderLayout.NORTH);
 		
-		topLabel = new JLabel("B         B6                  B5                  B4                 B3                  B2                 B1         A");
-        bottomLabel = new JLabel("            A1                 A2                  A3                 A4                  A5                  A6");
-        topLabel.setFont(new Font("Arial", Font.PLAIN, 50));
-        bottomLabel.setFont(new Font("Arial", Font.PLAIN, 50));
+		topLabel = new JLabel("           B6             B5             B4             B3             B2             B1");
+        JLabel top[] = new JLabel[6];
+        top[0] = new JLabel( "   B   ");
+        top[1] = new JLabel( "   A   ");
+		bottomLabel = new JLabel("           A1              A2             A3             A4            A5              A6");
+        topLabel.setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
+        bottomLabel.setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
         aRow = new JPanel();
         aRow.setLayout(new GridLayout(1, 6));
-        aMancala = new JPanel();
         bRow = new JPanel();
         bRow.setLayout(new GridLayout(1, 6));
-        bMancala = new JPanel();
+        
         rowPanel = new JPanel();
         rowPanel.setLayout(new GridLayout(2, 1));
         rowPanel.add(bRow);
         rowPanel.add(aRow);
+        
+        for(int i=0; i< 14;i++)
+        {
+        		if(i ==6 || i == 13) {
+        		C[i] = new JLabel("0",SwingConstants.CENTER);
+        		C[i].setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
+        		}
+        		else {
+        		C[i] = new JLabel("3",SwingConstants.CENTER);
+        		C[i].setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));}
+        		
+        		
+        }
+        for(int i=0; i<6;i++)
+        {
+        	 aRow.add(C[i]);
+        }
+        
+        
+        for(int i=12; i>6;i--)
+        {
+        	 bRow.add(C[i]);
+        }
+      
+        
+        JPanel LeftPanel = new JPanel();
+        LeftPanel.setPreferredSize(new Dimension(100,650));
+        LeftPanel.setLayout(new BorderLayout());
+        top[0].setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
+        LeftPanel.add(top[0], BorderLayout.NORTH);
+        LeftPanel.add(C[13], BorderLayout.CENTER);
+     
+        JPanel rightPanel = new JPanel();
+        rightPanel.setPreferredSize(new Dimension(100,650));
+        rightPanel.setLayout(new BorderLayout());
+        top[1].setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
+        rightPanel.add(top[1], BorderLayout.SOUTH);
+        rightPanel.add(C[6], BorderLayout.CENTER);
+        
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(bMancala, BorderLayout.WEST);
+        mainPanel.add(LeftPanel, BorderLayout.WEST);
         mainPanel.add(rowPanel, BorderLayout.CENTER);
-        mainPanel.add(aMancala, BorderLayout.EAST);
+        mainPanel.add(rightPanel, BorderLayout.EAST);
+  
+        
+      
+        
+        
         midPanel.setLayout(new BorderLayout());
         midPanel.add(topLabel, BorderLayout.NORTH);
         midPanel.add(mainPanel, BorderLayout.CENTER);
         midPanel.add(bottomLabel, BorderLayout.SOUTH);
         midPanel.setVisible(false);
         
-        c0 = new JLabel("3",SwingConstants.CENTER);
-        c1 = new JLabel("3",SwingConstants.CENTER);
-        c2 = new JLabel("3",SwingConstants.CENTER);
-        c3 = new JLabel("3",SwingConstants.CENTER);
-        c4 = new JLabel("3",SwingConstants.CENTER);
-        c5 = new JLabel("3",SwingConstants.CENTER);
-        c6 = new JLabel("0",SwingConstants.CENTER);
-        c7 = new JLabel("3",SwingConstants.CENTER);
-        c8 = new JLabel("3",SwingConstants.CENTER);
-        c9 = new JLabel("3",SwingConstants.CENTER);
-        c10 = new JLabel("3",SwingConstants.CENTER);
-        c11 = new JLabel("3",SwingConstants.CENTER);
-        c12 = new JLabel("3",SwingConstants.CENTER);
-        c13 = new JLabel("0",SwingConstants.CENTER);
-        c0.setFont(new Font("Arial", Font.PLAIN, 50));
-        c1.setFont(new Font("Arial", Font.PLAIN, 50));
-        c2.setFont(new Font("Arial", Font.PLAIN, 50));
-        c3.setFont(new Font("Arial", Font.PLAIN, 50));
-        c4.setFont(new Font("Arial", Font.PLAIN, 50));
-        c5.setFont(new Font("Arial", Font.PLAIN, 50));
-        c6.setFont(new Font("Arial", Font.PLAIN, 50));
-        c7.setFont(new Font("Arial", Font.PLAIN, 50));
-        c8.setFont(new Font("Arial", Font.PLAIN, 50));
-        c9.setFont(new Font("Arial", Font.PLAIN, 50));
-        c10.setFont(new Font("Arial", Font.PLAIN, 50));
-        c11.setFont(new Font("Arial", Font.PLAIN, 50));
-        c12.setFont(new Font("Arial", Font.PLAIN, 50));
-        c13.setFont(new Font("Arial", Font.PLAIN, 50));
-        aRow.add(c0);
-        aRow.add(c1);
-        aRow.add(c2);
-        aRow.add(c3);
-        aRow.add(c4);
-        aRow.add(c5);
-        aMancala.add(c6);
-        bRow.add(c12);
-        bRow.add(c11);
-        bRow.add(c10);
-        bRow.add(c9);
-        bRow.add(c8);
-        bRow.add(c7);
-        bMancala.add(c13);
+        
+       
         
         
 		counter = new JTextArea();
-		counter.setFont(new Font("Arial", Font.PLAIN, 50));
+		counter.setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
 		counter.setEditable(false);
 		bottomPanel = new JPanel();
-		Dimension d = new Dimension(200,200);
+		Dimension d = new Dimension(120,120);
 		a = new JButton("A");	
-		a.setFont(new Font("Arial", Font.PLAIN, 50));
+		a.setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
 		a.setPreferredSize(d);
 		a.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
@@ -137,7 +164,7 @@ public class Mancala {
 			}
 		});
 		b = new JButton("B");
-		b.setFont(new Font("Arial", Font.PLAIN, 50));
+		b.setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
 		b.setPreferredSize(d);
 		b.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
@@ -145,7 +172,7 @@ public class Mancala {
 			}
 		});
 		three = new JButton("3");
-		three.setFont(new Font("Arial", Font.PLAIN, 50));
+		three.setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
 		three.setPreferredSize(d);
 		three.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
@@ -153,7 +180,7 @@ public class Mancala {
 			}
 		});
 		four = new JButton("4");
-		four.setFont(new Font("Arial", Font.PLAIN, 50));
+		four.setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
 		four.setPreferredSize(d);
 		four.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
@@ -161,7 +188,7 @@ public class Mancala {
 			}
 		});
 		first = new JButton("Circle");	
-		first.setFont(new Font("Arial", Font.PLAIN, 50));
+		first.setFont(new Font("Arial", Font.PLAIN, 20));
 		first.setPreferredSize(d);
 		first.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
@@ -169,135 +196,60 @@ public class Mancala {
 			}
 		});
 		second = new JButton("Square");
-		second.setFont(new Font("Arial", Font.PLAIN, 50));
+		second.setFont(new Font("Arial", Font.PLAIN, 20));
 		second.setPreferredSize(d);
 		second.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
 				selectStyle(false);
 			}
 		});
+		
+		
+		for( int i=0; i <6 ;i++) {
+			final Integer innerloop =  (int) (i);
+			buttonsA[i].addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent event) {
+					
+					select(innerloop);
+				}
+				
+			});
+			buttonsA[i].setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
+			buttonsA[i].setPreferredSize(d);
+			buttonsA[i].setVisible(false);
+			buttonsB[i].addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent event) {
+					
+					select(innerloop);
+				}
+			});
+			buttonsB[i].setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
+			buttonsB[i].setPreferredSize(d);
+			buttonsB[i].setVisible(false);
+		}
+
+		for( int i=0; i <6 ;i++) {
+			int a =5 -i;
+			bottomPanel.add(buttonsA[i]);
+			bottomPanel.add(buttonsB[a]);	
+		}
+		
 		undo = new JButton("UNDO");
-		undo.setFont(new Font("Arial", Font.PLAIN, 50));
+		undo.setFont(new Font("Arial", Font.PLAIN, 20));
 		undo.setPreferredSize(d);
 		undo.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
 				undo();
 			}
 		});
-		a1 = new JButton("A1");
-		a1.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent event) {
-				select(1);
-			}
-		});
-		a2 = new JButton("A2");
-		a2.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent event) {
-				select(2);
-			}
-		});
-		a3 = new JButton("A3");
-		a3.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent event) {
-				select(3);
-			}
-		});
-		a4 = new JButton("A4");
-		a4.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent event) {
-				select(4);
-			}
-		});
-		a5 = new JButton("A5");
-		a5.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent event) {
-				select(5);
-			}
-		});
-		a6 = new JButton("A6");
-		a6.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent event) {
-				select(6);
-			}
-		});
-		b1 = new JButton("B1");
-		b1.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent event) {
-				select(1);
-			}
-		});
-		b2 = new JButton("B2");
-		b2.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent event) {
-				select(2);
-			}
-		});
-		b3 = new JButton("B3");
-		b3.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent event) {
-				select(3);
-			}
-		});
-		b4 = new JButton("B4");
-		b4.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent event) {
-				select(4);
-			}
-		});
-		b5 = new JButton("B5");
-		b5.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent event) {
-				select(5);
-			}
-		});
-		b6 = new JButton("B6");
-		b6.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent event) {
-				select(6);
-			}
-		});
-		a1.setFont(new Font("Arial", Font.PLAIN, 50));
-		a2.setFont(new Font("Arial", Font.PLAIN, 50));
-		a3.setFont(new Font("Arial", Font.PLAIN, 50));
-		a4.setFont(new Font("Arial", Font.PLAIN, 50));
-		a5.setFont(new Font("Arial", Font.PLAIN, 50));
-		a6.setFont(new Font("Arial", Font.PLAIN, 50));
-		b1.setFont(new Font("Arial", Font.PLAIN, 50));
-		b2.setFont(new Font("Arial", Font.PLAIN, 50));
-		b3.setFont(new Font("Arial", Font.PLAIN, 50));
-		b4.setFont(new Font("Arial", Font.PLAIN, 50));
-		b5.setFont(new Font("Arial", Font.PLAIN, 50));
-		b6.setFont(new Font("Arial", Font.PLAIN, 50));
-		a1.setPreferredSize(d);
-		a2.setPreferredSize(d);
-		a3.setPreferredSize(d);
-		a4.setPreferredSize(d);
-		a5.setPreferredSize(d);
-		a6.setPreferredSize(d);
-		b1.setPreferredSize(d);
-		b2.setPreferredSize(d);
-		b3.setPreferredSize(d);
-		b4.setPreferredSize(d);
-		b5.setPreferredSize(d);
-		b6.setPreferredSize(d);
+
 		three.setVisible(false);
 		four.setVisible(false);
 		first.setVisible(false);
 		second.setVisible(false);
 		undo.setVisible(false);
-		a1.setVisible(false);
-		a2.setVisible(false);
-		a3.setVisible(false);
-		a4.setVisible(false);
-		a5.setVisible(false);
-		a6.setVisible(false);
-		b1.setVisible(false);
-		b2.setVisible(false);
-		b3.setVisible(false);
-		b4.setVisible(false);
-		b5.setVisible(false);
-		b6.setVisible(false);
 		counter.setVisible(false);
+		
 		bottomPanel.add(a);
 		bottomPanel.add(b);
 		bottomPanel.add(three);
@@ -306,22 +258,14 @@ public class Mancala {
 		bottomPanel.add(second);
 		bottomPanel.add(counter);
 		bottomPanel.add(undo);
-		bottomPanel.add(a1);
-		bottomPanel.add(a2);
-		bottomPanel.add(a3);
-		bottomPanel.add(a4);
-		bottomPanel.add(a5);
-		bottomPanel.add(a6);
-		bottomPanel.add(b6);
-		bottomPanel.add(b5);
-		bottomPanel.add(b4);
-		bottomPanel.add(b3);
-		bottomPanel.add(b2);
-		bottomPanel.add(b1);
+
 		frame.add(midPanel, BorderLayout.CENTER);
 		frame.add(bottomPanel, BorderLayout.SOUTH);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		
+		frame.setMinimumSize(new Dimension(1300, 700));
+		
+		frame.setResizable(false);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -352,52 +296,41 @@ public class Mancala {
 	 * Chooses a style of the board
 	 */
 	public void selectStyle(boolean circle) {
+		
 		if(circle) {
 			style = new CircleStyle();
 		}
 		else {
 			style = new SquareStyle();
 		}
-
+		
 		midPanel.setVisible(true);
-		c0.setIcon((Icon) style);
-		c1.setIcon((Icon) style);
-		c2.setIcon((Icon) style);
-		c3.setIcon((Icon) style);
-		c4.setIcon((Icon) style);
-		c5.setIcon((Icon) style);
-		c7.setIcon((Icon) style);
-		c8.setIcon((Icon) style);
-		c9.setIcon((Icon) style);
-		c10.setIcon((Icon) style);
-		c11.setIcon((Icon) style);
-		c12.setIcon((Icon) style);
+		
+		for(int i=0; i<14; i++)
+		{
+			if(i==6 || i ==13) {
+				//C[i].setIcon((Icon) style);
+				}
+			else
+				C[i].setIcon((Icon) style);
+		}
+
 		
 		first.setVisible(false);
 		second.setVisible(false);
 		undo.setVisible(true);
 		counter.setVisible(true);
-		paint();
+	paint();
 	}
 	/*
 	 * Shows an updated visual of the board
 	 */
 	public void print() {
 		int[] current = x.list();
-		c0.setText(""+current[0]);
-		c1.setText(""+current[1]);
-		c2.setText(""+current[2]);
-		c3.setText(""+current[3]);
-		c4.setText(""+current[4]);
-		c5.setText(""+current[5]);
-		c6.setText(""+current[6]);
-		c7.setText(""+current[7]);
-		c8.setText(""+current[8]);
-		c9.setText(""+current[9]);
-		c10.setText(""+current[10]);
-		c11.setText(""+current[11]);
-		c12.setText(""+current[12]);
-		c13.setText(""+current[13]);
+		
+		for(int i=0; i<14; i++)
+			C[i].setText(""+current[i]);
+			
 	}
 	/*
 	 * Shows an updated visual of the board
@@ -407,40 +340,29 @@ public class Mancala {
 		counter.setText("Undos: "+undos);
 		if(aTurn) {
 			text.setText("A's turn");
-			a1.setVisible(true);
-			a2.setVisible(true);
-			a3.setVisible(true);
-			a4.setVisible(true);
-			a5.setVisible(true);
-			a6.setVisible(true);
-			b1.setVisible(false);
-			b2.setVisible(false);
-			b3.setVisible(false);
-			b4.setVisible(false);
-			b5.setVisible(false);
-			b6.setVisible(false);
+			for(int i=0; i < 6; i++)
+			{
+				buttonsA[i].setVisible(true);
+				buttonsB[i].setVisible(false);
+			}
+			
 		}
 		else {
 			text.setText("B's turn");
-			b1.setVisible(true);
-			b2.setVisible(true);
-			b3.setVisible(true);
-			b4.setVisible(true);
-			b5.setVisible(true);
-			b6.setVisible(true);
-			a1.setVisible(false);
-			a2.setVisible(false);
-			a3.setVisible(false);
-			a4.setVisible(false);
-			a5.setVisible(false);
-			a6.setVisible(false);
+			for(int i=0; i < 6; i++)
+			{
+				buttonsA[i].setVisible(false);
+				buttonsB[i].setVisible(true);
+			}
 		}
+		//counter.setVisible(true);
 		print();
 	}
 	/*
 	 * Selects pit and updates board
 	 */
 	public void select(int i) {
+		i=i+1;
 		if(x.get(i).getStones()>0) {
 			list = x.list();
 			x.select(i);
