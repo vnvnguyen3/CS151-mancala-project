@@ -19,25 +19,23 @@ public class CircleStyle implements Style, Icon{
 
 	@Override
 	public Shape getPitShape() {
-		return new Ellipse2D.Double(0, 0, 50, 50);
+		return new Ellipse2D.Double(0, 0, 175,175);
 	}
 
 	@Override
 	public int getIconHeight() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int getIconWidth() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y) {
 		// TODO Auto-generated method stub
-		Shape s = new Ellipse2D.Double(0, 0, 250, 250);
+		Shape s = new Ellipse2D.Double(0, 0, 175, 175);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.YELLOW);
 		g2.fill(s);
