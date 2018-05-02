@@ -17,25 +17,22 @@ public class SquareStyle implements Style, Icon{
 
 	@Override
 	public Shape getPitShape() {
-		return new Rectangle2D.Double(0, 0, 50, 50);
+		return new Rectangle2D.Double(0, 0, 170, 170);
 	}
 
 	@Override
-	public int getIconHeight() {
-		// TODO Auto-generated method stub
+	public int getIconHeight() 
 		return 0;
 	}
 
 	@Override
 	public int getIconWidth() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y) {
-		// TODO Auto-generated method stub
-		Shape s = new Rectangle2D.Double(0, 0, 250, 250);
+		Shape s = new Rectangle2D.Double(0, 0, 170, 170);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.PINK);
 		g2.fill(s);
