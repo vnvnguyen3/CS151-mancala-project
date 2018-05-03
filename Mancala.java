@@ -99,8 +99,8 @@ public class Mancala {
         
         rowPanel = new JPanel();
         rowPanel.setLayout(new GridLayout(2, 1));
-        rowPanel.add(aRow);
         rowPanel.add(bRow);
+        rowPanel.add(aRow);
         
         for(int i=0; i< 14;i++)
         {
@@ -412,4 +412,4 @@ public class Mancala {
 		paint();
 	}
 
-}
+}//end Mancala class
