@@ -1,56 +1,73 @@
-package mancala;
-/*
- * @author Vincent Nguyen
+/**
+ * Team Project Solution
+ * Author: Vincent Nguyen, My Nguyen, Seng Cheok
+ * Version: Coding in Java Language
+ * Copyright
+ */
+package project.CS151;
+
+/**
+ * Pit class
+ * @author Vincent Nguyen, My Nguyen, Seng Cheok
+ * Postcondition: Hold the number of stones, the next pit, the opposite pit
+ * 					for each pit ont he board
  */
 public class Pit {
+	
 	private int stones;
 	private Pit next;
 	private Pit opposite;
 	private CapturePit capture;
 	private boolean end;
-	/*
-	 * Pit class
-	 */
+
+	//constructor
 	public Pit(int s) {
 		stones = s;
 		end  = false;
 	}
-	/*
-	 * Returns the number of stones in the pit
+	/**
+	 * getStones function
 	 * @return the number of stones in the pit
+	 * Postcondition: Get the number of stones in the pit
 	 */
 	public int getStones() {
 		return stones;
 	}
-	/*
-	 * Adds one stone to the pit
+	/**
+	 * add function
+	 * Postcondition: Add one stone to the pit
 	 */
 	public void add() {
 		stones++;
 	}
-	/*
-	 * Adds many stones to the pit
+	/**
+	 * add function
 	 * @param s the number of stones to add
+	 * Postcondition: Add many stones to the pit
 	 */
 	public void add(int s) {
 		stones+=s;
 	}
-	/*
-	 * Transfers all of its stones to capture pit
+	/**
+	 * transferTo function
 	 * @param p the capture pit to transfer to
+	 * Postcondition: Transfers all of its stones to capture pit
 	 */
 	public void transferTo(CapturePit p) {
 		p.gather(stones);
 		remove();
 	}
-	/*
-	 * Removes all stones in the pit
+	/**
+	 * remove function
+	 * Postcondition: Removes all stones in the pit
 	 */
 	public void remove() {
 		stones = 0;
 	}
-	/*
-	 * When you click on this pit, it will remove its stones and pass them to the next pit
+	/**
+	 * click function
+	 * Postcondition: When you click on this pit, it will remove its stones 
+	 * 					and pass them to the next pit
 	 */
 	public void click() {
 		if(stones>0) {
@@ -59,9 +76,10 @@ public class Pit {
 			next.receive(s);
 		}
 	}
-	/*
-	 * Receive stones from previous pit 
+	/**
+	 * receive function
 	 * @param s the number of stones passed from the previous pit
+	 * Postcondition: Receive stones from previous pit 
 	 */
 	public void receive(int s) {
 		add();
@@ -72,66 +90,69 @@ public class Pit {
 		else {
 			end = true;
 		}
-		/*
-		else if(stones==1&&opposite.getStones()>0){	
-			transferTo(capture);
-			opposite.transferTo(capture);
-		}
-		*/
 	}
-	/*
-	 * Sets the opposite pit
+	/**
+	 * setOpposite function
 	 * @param p the opposite pit
+	 * Postcondition: Sets the opposite pit
 	 */
 	public void setOpposite(Pit p) {
 		opposite = p;
 	}
-	/*
-	 * Returns the opposite pit
+	/**
+	 * getOpposite function
 	 * @return the opposite pit
+	 * Postcondition: Get the opposite pit
 	 */
 	public Pit getOpposite() {
 		return opposite;
 	}
-	/*
-	 * Sets the next pit
+	/**
+	 * setNext function
 	 * @param p the next pit
+	 * Postcondition: Sets the next pit
 	 */
 	public void setNext(Pit p) {
 		next = p;
 	}
-	/*
-	 * Sets the capture pit
+	/**
+	 * setCapture function
 	 * @param p the capture pit
+	 * Postcondition: the capture pit is set
 	 */
 	public void setCapture(CapturePit p) {
 		capture = p;
 	}
-	/*
-	 * Returns the capture pit
+	/**
+	 * getCapture function
 	 * @return the capture pit
+	 * Postcondition: get the capture pit
 	 */
 	public CapturePit getCapture() {
 		return capture;
 	}
-	/*
-	 * Return true if the pit is the lost stone dropped in
+	/**
+	 * isEnd function
 	 * @return end
+	 * Postcondition: Return true if the pit is the lost stone dropped in
 	 */
 	public boolean isEnd() {
 		return end;
 	}
-	/*
-	 * Sets end to false
+	/**
+	 * notEnd function
+	 * Postcondition: Sets end to false
 	 */
 	public void notEnd() {
 		end = false;
 	}
-	/*
-	 * Return true if this is the capture pit
+	/**
+	 * isCapture function
 	 * @return false
+	 * Postcondition: Return true if this is the capture pit
 	 */
 	public boolean isCapture() {
 		return false;
 	}
-}
+	
+}//end Pit class
