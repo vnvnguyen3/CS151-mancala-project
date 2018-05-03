@@ -1,16 +1,33 @@
-package mancala;
+/**
+ * Team Project Solution
+ * Author: Vincent Nguyen, My Nguyen, Seng Cheok
+ * Version: Coding in Java Language
+ * Copyright
+ */
+package project.CS151;
 
 import java.util.ArrayList;
-/*
- * @author Vincent Nguyen
+
+/**
+ * Board class ((this is the Model which holds the datas)
+ * @author Vincent Nguyen, My Nguyen, Seng Cheok
+ * Postcondition: Maintain the rules of Mancala games
+ * 					Display the winner
  */
-public class Board {
+
+public class Board 
+{
+
 	private Pit a1,a2,a3,a4,a5,a6,b1,b2,b3,b4,b5,b6;
 	private CapturePit a7,b7;
 	private ArrayList<Pit> aPits,bPits;
 	private boolean aTurn,capture;
-	/*
-	 * Board class
+	/**
+	 * Board constructor
+	 * @param s the initial number of stones being placed in each pit
+	 * @param aTurn
+	 * Postcondition: Make a connection between all the pits of the board
+	 * 					to ensure the rules are correctly followed
 	 */
 	public Board(int s, boolean aTurn) {
 		capture = true;
@@ -82,8 +99,12 @@ public class Board {
 		bPits.add(b5);
 		bPits.add(b6);
 	}
-	/*
-	 * Alternative board class
+	/**
+	 * Board constructor
+	 * @param l 
+	 * @param aTurn
+	 * Postcondition: Make a connection between all the pits of the board
+	 * 					to ensure the rules are correctly followed
 	 */
 	public Board(int[] l, boolean aTurn) {
 		capture = true;
@@ -155,20 +176,7 @@ public class Board {
 		bPits.add(b5);
 		bPits.add(b6);
 	}
-	/*
-	 * Prints visual of the board
-	 * will not be used in the final product
-	 */
-	public ArrayList<String> visual(){
-		ArrayList<String> visual = new ArrayList<String>();
-		visual.add("     B6 B5 B4 B3 B2 B1");
-		visual.add("      "+b6.getStones()+"    "+b5.getStones()+"    "+b4.getStones()+"    "+b3.getStones()+"    "+b2.getStones()+"    "+b1.getStones());
-		visual.add("B                                      A");
-		visual.add(b7.getStones()+"                                     "+a7.getStones());
-		visual.add("     "+a1.getStones()+"    "+a2.getStones()+"    "+a3.getStones()+"    "+a4.getStones()+"    "+a5.getStones()+"    "+a6.getStones());
-		visual.add("     A1 A2  A3  A4  A5  A6");
-		return visual;
-	}
+	
 	/*
 	 * Returns true if all of the pits on a's side is empty
 	 */
@@ -183,8 +191,11 @@ public class Board {
 		}
 		return true;
 	}
-	/*
-	 * Returns true if all of the pits on b's side is empty
+	/**
+	 * bDone function
+	 * @return if b's side is empty
+	 * Postcondition: Returns true if all of the pits on b's side is empty
+	 * 					return false otherwise
 	 */
 	public boolean bDone() {
 		for(Pit p: bPits) {
@@ -197,9 +208,11 @@ public class Board {
 		}
 		return true;
 	}
-	/*
-	 * Returns one of the pits on the board
+	/**
+	 * get function
+	 * @param i index of a's pits or b's pits
 	 * @return the pit
+	 * Postcondition: Returns the selected pit on the board
 	 */
 	public Pit get(int i) {
 		int j = i - 1;
@@ -210,8 +223,10 @@ public class Board {
 			return bPits.get(j);
 		}
 	}
-	/*
-	 * Selects pit that will be clicked on
+	/**
+	 * select function
+	 * @param i index of a's pits or b's pits
+	 * Postcondition: Selects pit that will be clicked on
 	 */
 	public void select(int i) {
 		int j = i - 1;
@@ -262,16 +277,18 @@ public class Board {
 			last.notEnd();
 		}
 	}
-	/*
-	 * Returns true if the last move ended on the capture pit
+	/**
+	 * wasCapture function
 	 * @return capture
+	 * Postcondition: Returns true if the last move ended on the Mancala (capture pit)
 	 */
 	public boolean wasCapture() {
 		return capture;
 	}
-	/*
-	 * Returns an array of integers based on how many stones each pit has
-	 * @return an int array
+	/**
+	 * list function
+	 * @return an array of stones in each pit
+	 * Postcondition: Returns an array of integers based on how many stones each pit has
 	 */
 	public int[] list(){
 		int[] list = new int[14];
@@ -286,9 +303,11 @@ public class Board {
 		list[13]=b7.getStones();
 		return list;
 	}
-	/*
-	 * Returns true if it is a's turn
+	/**
+	 * whoseTurn function
 	 * @return aTurn
+	 * Postcondition: Returns true if it is a's turn
+	 * 					return false otherwise
 	 */
 	public boolean whoseTurn() {
 		if(aTurn) {
@@ -301,16 +320,18 @@ public class Board {
 		}
 		return aTurn;
 	}
-	/*
-	 * Return true if a is winning
-	 * @return status of game
+	/**
+	 * aWins function
+	 * @return if a is the winner
+	 * Postcondition: Return true if a is winning
 	 */
 	public boolean aWins() {
-		return a7.getStones()>b7.getStones();
+		return a7.getStones() > b7.getStones();
 	}
-	/*
-	 * Return true if b is winning
-	 * @return status of game
+	/**
+	 * bWins function
+	 * @return if b is the winner
+	 * Postcondition: Return true if b is winning
 	 */
 	public boolean bWins() {
 		return a7.getStones()<b7.getStones();
