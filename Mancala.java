@@ -85,11 +85,11 @@ public class Mancala {
 		doc.setParagraphAttributes(0, doc.getLength(), center, false);
 		frame.add(text, BorderLayout.NORTH);
 		
-		topLabel = new JLabel("            B6          B5         B4         B3         B2          B1");
+		topLabel = new JLabel("            B6        B5         B4        B3         B2         B1");
         JLabel top[] = new JLabel[6];
         top[0] = new JLabel( "  B ");
         top[1] = new JLabel( "   A ");
-		bottomLabel = new JLabel("           A1          A2         A3         A4           A5          A6");
+		bottomLabel = new JLabel("           A1         A2         A3         A4         A5         A6");
         topLabel.setFont(new Font("Arial", Font.PLAIN, 50));
         bottomLabel.setFont(new Font("Arial", Font.PLAIN, 50));
         aRow = new JPanel();
@@ -261,9 +261,10 @@ public class Mancala {
 		frame.add(midPanel, BorderLayout.CENTER);
 		frame.add(bottomPanel, BorderLayout.SOUTH);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1500, 740);
 		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		//frame.pack();
+		frame.setMinimumSize(new Dimension(1300, 740));
+		frame.setResizable(false);
+		frame.pack();
 		frame.setVisible(true);
 	}
 	/**
